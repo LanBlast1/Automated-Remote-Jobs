@@ -1,4 +1,5 @@
 import sqlite3
+import sys
 import requests
 import logging
 from bs4 import BeautifulSoup
@@ -10,21 +11,10 @@ logging.basicConfig(
 
 headers={'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.102 Safari/537.36'}
 response=requests.get("https://weworkremotely.com/remote-jobs",headers=headers)
-if response!=200:
+if response.status_code!=200:
     logging.error("Inaccesible link")
+    sys.exit(1)
 soup=BeautifulSoup(response.content,'html.parser')
-span=soup.find("span",class_="new-listing__header__title__text")
-paragraph=soup.find("p",class_="new-listing__company-name")
-sp_parents=span.find_parents()
-logging.info("Job title parents: ")
-for parent in sp_parents:
-    print(parent.name,parent.attrs)
-logging.info("Successful insertion of parents of span tag with class name new-listing__header__title__text")
-p_parents=paragraph.find_parents()
-logging.info("Company name parents: ")
-for parent in p_parents:
-    logging.info(parent.name,parent.attrs)
-logging.info("Successful insertion of parents of p tag with class name new-listing__company-name")
 divs=soup.find_all("div",class_="new-listing")
 #Creating list of jobs
 jobs_list=[]
@@ -61,6 +51,5 @@ for i in jobs_list:
     INSERT OR IGNORE INTO jobs(title,company_name,location) 
     VALUES (?,?,?)
     ''',(i["title"],i["company name"],i["location"]))
-res=cur.execute("SELECT* FROM jobs")
 con.commit()
 con.close()
