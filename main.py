@@ -1,15 +1,77 @@
 import logging
+import sqlite3
 import requests
-from requests.adapters import HTTPAdapter
-from urllib3.util.retry import Retry
 from bs4 import BeautifulSoup
+from datetime import datetime as dt
+from contextlib import closing
+import sys
+
+logging.basicConfig(format="%(asctime)s - %(levelname)s - %(message)s",style="%",filename='pipeline.log')
 def fetch(url):
     try:
         headers = {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.102 Safari/537.36'}
         response=requests.get(url,headers=headers,timeout=5)
+        response.raise_for_status()
         if response.content!=None:
             return response.content
         else:
             return None
     except requests.exceptions.RequestException as e:
-        logging.warning("Error Occured : %e",e)
+        logging.warning("Error Occured : %s",e)
+
+
+def parse_html(response):
+    if response==None:
+        return None
+    soup=BeautifulSoup(response,'html.parser')
+    containers=soup.find_all('li',class_='new-listing-container')
+    job_listings=[]
+    for container in containers:
+        job_post={}
+        title=container.find('span',class_='new-listing__header__title__text')
+        job_post['title']=title.get_text(strip=True) if title else ""
+        company_name=container.find('p',class_='new-listing__company-name')
+        job_post['company_name']= company_name.get_text(strip=True) if company_name else None
+        location=container.find('p',class_='new-listing__company-headquarters')
+        job_post['location']=location.get_text(strip=True) if location else None
+        link=container.find('a',class_='listing-link--unlocked')
+        job_post['link']='https://weworkremotely.com'+link['href'].strip() if link else None
+        job_post['source']="WeWorkRemotely"
+        job_post['scraped_at']=str(dt.now().isoformat())
+        job_listings.append(job_post)
+    return job_listings
+    
+        
+def load(listings):
+    with closing(sqlite3.connect('jobs.db')) as con:
+        cur=con.cursor()
+        cur.execute("""CREATE TABLE IF NOT EXISTS jobs(
+                    title TEXT,
+                    company_name TEXT,
+                    location TEXT,
+                    link  TEXT NOT NULL UNIQUE,
+                     source TEXT,
+                      scraped_at TEXT )""")
+        cur.executemany('''INSERT OR IGNORE INTO
+         jobs(title,company_name,location,link,source,scraped_at)
+          VALUES(:title,:company_name,:location,:link,:source,:scraped_at) 
+          ''',listings)
+        return cur.rowcount()
+def main():
+    #We Work Remotely
+    url1="https://weworkremotely.com/remote-jobs"
+    response=fetch(url1)
+    if response==None:
+        logging.warning("No response.")
+        sys.exit()
+    job_listings=parse_html(response)
+    if job_listings==[]:
+        logging.warning("Nothing was scraped.")
+        sys.exit()
+    rowcount=load(job_listings)
+    if rowcount>1:
+        logging.warning("Duplicate entries were inserted with rowcount=%d",rowcount)
+        sys.exit()
+    
+if __name__=="__main__":
+    main()
