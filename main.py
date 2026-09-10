@@ -4,6 +4,7 @@ import requests
 from bs4 import BeautifulSoup
 from datetime import datetime as dt
 from contextlib import closing
+import json
 import sys
 
 logging.basicConfig(format="%(asctime)s - %(levelname)s - %(message)s",style="%",filename='pipeline.log')
@@ -23,7 +24,7 @@ def fetch(url):
 def parse_html(content):
     if content==None:
         return None
-    soup=BeautifulSoup(response,'html.parser')
+    soup=BeautifulSoup(content,'html.parser')
     containers=soup.find_all('li',class_='new-listing-container')
     job_listings=[]
     for container in containers:
@@ -47,13 +48,25 @@ def parse_json(content):
     for job in json_data[1:]:
         job_post={}
         title=job.get("position","")
+        job_post["title"]=title
+
         company_name=job.get("company","")
+        job_post["company_name"]=company_name
+
         location=job.get("location","")
-        link=(job.get("url","")).lower()
+        job_post["location"]=location
+
+        link=(job.get("url","")).lower() if job.get("url","")!="" else None
+        job_post["link"]=link
+
         source="remoteok"
+        job_post["source"]=source
+
         scraped_at=str(dt.now().isoformat())
+        job_post["scraped_at"]=scraped_at
+        job_listings.append(job_post)
     return job_listings
-        
+
 def load(listings):
     with closing(sqlite3.connect('jobs.db')) as con:
         cur=con.cursor()
@@ -73,7 +86,7 @@ def main():
     #We Work Remotely
     url1="https://weworkremotely.com/remote-jobs"
     content_wwr=fetch(url1)
-    if content==None:
+    if content_wwr==None:
         logging.warning("No response.")
         sys.exit()
     job_listings_wwr=parse_html(content_wwr)
@@ -81,8 +94,8 @@ def main():
         logging.warning("Nothing was scraped.")
         sys.exit()
     rowcount_wwr=load(job_listings_wwr)
-    if rowcount>1:
-        logging.warning("Duplicate entries were inserted with rowcount=%d",rowcount)
+    if rowcount_wwr>1:
+        logging.warning("Duplicate entries were inserted with rowcount=%d",rowcount_wwr)
         sys.exit()
 
     #Remoteok
@@ -91,13 +104,13 @@ def main():
     if content_ro==None:
         logging.warning("No response.")
         sys.exit()
-    job_listings_ro=parse_html(content)
+    job_listings_ro=parse_html(content_ro)
     if job_listings_ro==[]:
         logging.warning("Nothing was scraped.")
         sys.exit()
-    rowcount=load(job_listings_ro)
-    if rowcount>1:
-        logging.warning("Duplicate entries were inserted with rowcount=%d",rowcount)
+    rowcount_ro=load(job_listings_ro)
+    if rowcount_ro>1:
+        logging.warning("Duplicate entries were inserted with rowcount=%d",rowcount_ro)
         sys.exit()
 if __name__=="__main__":
     main()
