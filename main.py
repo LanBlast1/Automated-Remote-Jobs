@@ -35,7 +35,7 @@ def parse_html(response):
         location=container.find('p',class_='new-listing__company-headquarters')
         job_post['location']=location.get_text(strip=True) if location else None
         link=container.find('a',class_='listing-link--unlocked')
-        job_post['link']='https://weworkremotely.com'+link['href'].strip() if link else None
+        job_post['link']='https://weworkremotely.com'+link.get('href').strip() if (link and link('href')) else None
         job_post['source']="WeWorkRemotely"
         job_post['scraped_at']=str(dt.now().isoformat())
         job_listings.append(job_post)
@@ -56,7 +56,7 @@ def load(listings):
          jobs(title,company_name,location,link,source,scraped_at)
           VALUES(:title,:company_name,:location,:link,:source,:scraped_at) 
           ''',listings)
-        return cur.rowcount()
+        return cur.rowcount
 def main():
     #We Work Remotely
     url1="https://weworkremotely.com/remote-jobs"
