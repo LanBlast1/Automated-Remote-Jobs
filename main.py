@@ -20,8 +20,8 @@ def fetch(url):
         logging.warning("Error Occured : %s",e)
 
 
-def parse_html(response):
-    if response==None:
+def parse_html(content):
+    if content==None:
         return None
     soup=BeautifulSoup(response,'html.parser')
     containers=soup.find_all('li',class_='new-listing-container')
@@ -40,7 +40,19 @@ def parse_html(response):
         job_post['scraped_at']=str(dt.now().isoformat())
         job_listings.append(job_post)
     return job_listings
-    
+
+def parse_json(content):
+    json_data=json.loads(content)
+    job_listings=[]
+    for job in json_data[1:]:
+        job_post={}
+        title=job.get("position","")
+        company_name=job.get("company","")
+        location=job.get("location","")
+        link=(job.get("url","")).lower()
+        source="remoteok"
+        scraped_at=str(dt.now().isoformat())
+    return job_listings
         
 def load(listings):
     with closing(sqlite3.connect('jobs.db')) as con:
@@ -60,18 +72,32 @@ def load(listings):
 def main():
     #We Work Remotely
     url1="https://weworkremotely.com/remote-jobs"
-    response=fetch(url1)
-    if response==None:
+    content_wwr=fetch(url1)
+    if content==None:
         logging.warning("No response.")
         sys.exit()
-    job_listings=parse_html(response)
-    if job_listings==[]:
+    job_listings_wwr=parse_html(content_wwr)
+    if job_listings_wwr==[]:
         logging.warning("Nothing was scraped.")
         sys.exit()
-    rowcount=load(job_listings)
+    rowcount_wwr=load(job_listings_wwr)
     if rowcount>1:
         logging.warning("Duplicate entries were inserted with rowcount=%d",rowcount)
         sys.exit()
-    
+
+    #Remoteok
+    url2="https://remoteok.com/api"
+    content_ro=fetch(url2)
+    if content_ro==None:
+        logging.warning("No response.")
+        sys.exit()
+    job_listings_ro=parse_html(content)
+    if job_listings_ro==[]:
+        logging.warning("Nothing was scraped.")
+        sys.exit()
+    rowcount=load(job_listings_ro)
+    if rowcount>1:
+        logging.warning("Duplicate entries were inserted with rowcount=%d",rowcount)
+        sys.exit()
 if __name__=="__main__":
     main()
