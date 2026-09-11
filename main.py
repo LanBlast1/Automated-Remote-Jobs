@@ -11,6 +11,7 @@ logging.basicConfig(
     format="%(asctime)s - %(levelname)s - %(message)s",
     style="%",
     filename="pipeline.log",
+    level=logging.INFO
 )
 
 
@@ -21,6 +22,7 @@ def fetch(url):
         }
         response = requests.get(url, headers=headers, timeout=5)
         response.raise_for_status()
+        return response.content
     except requests.exceptions.RequestException as e:
         logging.warning("Error Occurred: %s for the website whose url is: %s", e,url)
         return None
@@ -50,7 +52,6 @@ def parse_html(content):
         job_post["source"] = "WeWorkRemotely"
         job_post["scraped_at"] = str(dt.now().isoformat())
         job_listings.append(job_post)
-        sys.stdout.write("")
     return job_listings
 
 
@@ -99,21 +100,19 @@ def load(listings):
             listings,
         )
         rowcount= cur.rowcount
-        no_of_rows=cur.execute("SELECT COUNT(*) FROM jobs")
-        delta=length-no_of_rows
-        logging.info("Inserted %d out of %d and the delta is %d",length,no_of_rows,delta)
-
+        delta=length-rowcount
+        logging.info("Inserted %d out of %d,delta is %d",rowcount,length,delta)
+        con.commit()
+    return delta
 def main():
     # We Work Remotely
     url1 = "https://weworkremotely.com/remote-jobs"
     content_wwr = fetch(url1)
     if content_wwr == None:
         logging.warning("No response.")
-        sys.exit()
     job_listings_wwr = parse_html(content_wwr)
     if job_listings_wwr == []:
         logging.warning("Nothing was scraped.")
-        sys.exit()
     rowcount_wwr = load(job_listings_wwr)
 
     # Remoteok
@@ -121,15 +120,12 @@ def main():
     content_ro = fetch(url2)
     if content_ro == None:
         logging.warning("No response.")
-        sys.exit()
     job_listings_ro = parse_json(content_ro)
     if job_listings_ro == []:
         logging.warning("Nothing was scraped.")
-        sys.exit()
     rowcount_ro = load(job_listings_ro)
     if rowcount_ro > 1:
         logging.warning("Duplicate entries were inserted with rowcount=%d", rowcount_ro)
-        sys.exit()
 
 
 if __name__ == "__main__":
