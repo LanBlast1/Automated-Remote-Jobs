@@ -36,7 +36,7 @@ def parse_html(content):
     for container in containers:
         job_post = {}
         title = container.find("span", class_="new-listing__header__title__text")
-        job_post["title"] = title.get_text(strip=True) if title else ""
+        job_post["title"] = title.get_text(strip=True) if title else None
         company_name = container.find("p", class_="new-listing__company-name")
         job_post["company_name"] = (
             company_name.get_text(strip=True) if company_name else None
@@ -44,11 +44,10 @@ def parse_html(content):
         location = container.find("p", class_="new-listing__company-headquarters")
         job_post["location"] = location.get_text(strip=True) if location else None
         link = container.find("a", class_="listing-link--unlocked")
-        job_post["link"] = (
-            "https://weworkremotely.com" + link.get("href").strip()
-            if (link and link.get("href"))
-            else None
-        )
+        if link is None or link.get('href') is None:
+            logging.warning("Skipping the record as no link exists")
+            continue
+        job_post["link"] = "https://weworkremotely.com" + link.get("href").strip()
         job_post["source"] = "WeWorkRemotely"
         job_post["scraped_at"] = str(dt.now().isoformat())
         job_listings.append(job_post)
@@ -60,17 +59,19 @@ def parse_json(content):
     job_listings = []
     for job in json_data[1:]:
         job_post = {}
-        title = job.get("position", "")
-        job_post["title"] = title
+        title = job.get("position", None)
+        job_post["title"] = title if title is not "" else None
 
-        company_name = job.get("company", "")
-        job_post["company_name"] = company_name
+        company_name = job.get("company", None)
+        job_post["company_name"] = company_name if company_name is not "" else None
 
-        location = job.get("location", "")
-        job_post["location"] = location
+        location = job.get("location", None)
+        job_post["location"] = location if location is not "" else None
 
-        link = (job.get("url", "")).lower() if job.get("url", "") != "" else None
-        job_post["link"] = link
+        link = (job.get("url", "")).lower() if job.get("url", "") is not "" else None
+        if link is None:
+            continue
+        job_post["link"] = link if link is not "" else None
 
         source = "remoteok"
         job_post["source"] = source
@@ -105,27 +106,33 @@ def load(listings):
         con.commit()
     return delta
 def main():
-    # We Work Remotely
     url1 = "https://weworkremotely.com/remote-jobs"
     content_wwr = fetch(url1)
-    if content_wwr == None:
-        logging.warning("No response.")
-    job_listings_wwr = parse_html(content_wwr)
-    if job_listings_wwr == []:
-        logging.warning("Nothing was scraped.")
-    rowcount_wwr = load(job_listings_wwr)
-
-    # Remoteok
     url2 = "https://remoteok.com/api"
     content_ro = fetch(url2)
-    if content_ro == None:
+
+    if url1 is None and url2 is None:
+        sys.exit()
+
+    # We Work Remotely
+    if content_wwr is None:
+        logging.warning("No response.")
+    job_listings_wwr = parse_html(content_wwr)
+    if not job_listings_wwr :
+        logging.warning("Nothing was scraped.")
+    delta_wwr = load(job_listings_wwr)
+    if delta_wwr==len(job_listings_wwr):
+        logging.warning("Every row ignored while inserting into database")
+
+    # Remoteok
+    if content_ro is None:
         logging.warning("No response.")
     job_listings_ro = parse_json(content_ro)
-    if job_listings_ro == []:
+    if not job_listings_ro :
         logging.warning("Nothing was scraped.")
-    rowcount_ro = load(job_listings_ro)
-    if rowcount_ro > 1:
-        logging.warning("Duplicate entries were inserted with rowcount=%d", rowcount_ro)
+    delta_ro = load(job_listings_ro)
+    if delta_ro==len(job_listings_ro):
+        logging.warning("Every row ignored while inserting into database")
 
 
 if __name__ == "__main__":
