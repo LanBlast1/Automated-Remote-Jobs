@@ -11,7 +11,7 @@ logging.basicConfig(
     format="%(asctime)s - %(levelname)s - %(message)s",
     style="%",
     filename="pipeline.log",
-    level=logging.INFO
+    level=logging.INFO,
 )
 
 
@@ -24,8 +24,9 @@ def fetch(url):
         response.raise_for_status()
         return response.content
     except requests.exceptions.RequestException as e:
-        logging.warning("Error Occurred: %s for the website whose url is: %s", e,url)
+        logging.warning("Error Occurred: %s for the website whose url is: %s", e, url)
         return None
+
 
 def parse_html(content):
     if content == None:
@@ -44,34 +45,37 @@ def parse_html(content):
         location = container.find("p", class_="new-listing__company-headquarters")
         job_post["location"] = location.get_text(strip=True) if location else None
         link = container.find("a", class_="listing-link--unlocked")
-        if link is None or link.get('href') is None:
+        if link is None or link.get("href") is None:
             logging.warning("Skipping the record as no link exists")
             continue
         job_post["link"] = "https://weworkremotely.com" + link.get("href").strip()
-        job_post["source"] = "WeWorkRemotely"
+        job_post["source"] = "weworkremotely"
         job_post["scraped_at"] = str(dt.now().isoformat())
         job_listings.append(job_post)
     return job_listings
 
 
 def parse_json(content):
+    if content == None:
+        return None
     json_data = json.loads(content)
     job_listings = []
     for job in json_data[1:]:
         job_post = {}
         title = job.get("position", None)
-        job_post["title"] = title if title is not "" else None
+        job_post["title"] = title if title != "" else None
 
         company_name = job.get("company", None)
-        job_post["company_name"] = company_name if company_name is not "" else None
+        job_post["company_name"] = company_name if company_name != "" else None
 
         location = job.get("location", None)
-        job_post["location"] = location if location is not "" else None
+        job_post["location"] = location if location != "" else None
 
-        link = (job.get("url", "")).lower() if job.get("url", "") is not "" else None
+        link = job.get("url", None) if job.get("url", None) != "" else None
         if link is None:
+            logging.warning("Skipping the record as no link exists")
             continue
-        job_post["link"] = link if link is not "" else None
+        job_post["link"] = link.lower() if link else None
 
         source = "remoteok"
         job_post["source"] = source
@@ -83,7 +87,7 @@ def parse_json(content):
 
 
 def load(listings):
-    length=len(listings)
+    length = len(listings)
     with closing(sqlite3.connect("jobs.db")) as con:
         cur = con.cursor()
         cur.execute("""CREATE TABLE IF NOT EXISTS jobs(
@@ -100,39 +104,38 @@ def load(listings):
           """,
             listings,
         )
-        rowcount= cur.rowcount
-        delta=length-rowcount
-        logging.info("Inserted %d out of %d,delta is %d",rowcount,length,delta)
+        rowcount = cur.rowcount
+        delta = length - rowcount
+        logging.info("Inserted %d out of %d,delta is %d", rowcount, length, delta)
         con.commit()
-    return delta
+    if rowcount == 0:
+        logging.info("No new rows inserted into the database.")
+
+
 def main():
     url1 = "https://weworkremotely.com/remote-jobs"
     content_wwr = fetch(url1)
     url2 = "https://remoteok.com/api"
     content_ro = fetch(url2)
 
-    if url1 is None and url2 is None:
-        sys.exit()
+    if content_wwr is None and content_ro is None:
+        sys.exit(1)
 
     # We Work Remotely
     if content_wwr is None:
         logging.warning("No response.")
     job_listings_wwr = parse_html(content_wwr)
-    if not job_listings_wwr :
+    if not job_listings_wwr:
         logging.warning("Nothing was scraped.")
-    delta_wwr = load(job_listings_wwr)
-    if delta_wwr==len(job_listings_wwr):
-        logging.warning("Every row ignored while inserting into database")
+    load(job_listings_wwr)
 
     # Remoteok
     if content_ro is None:
         logging.warning("No response.")
     job_listings_ro = parse_json(content_ro)
-    if not job_listings_ro :
+    if not job_listings_ro:
         logging.warning("Nothing was scraped.")
-    delta_ro = load(job_listings_ro)
-    if delta_ro==len(job_listings_ro):
-        logging.warning("Every row ignored while inserting into database")
+    load(job_listings_ro)
 
 
 if __name__ == "__main__":
