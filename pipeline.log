@@ -71,3 +71,52 @@
 2026-09-12 13:24:30,172 - INFO - No new rows inserted into the database.
 2026-09-12 13:24:30,174 - INFO - Inserted 0 out of 99,delta is 99
 2026-09-12 13:24:30,174 - INFO - No new rows inserted into the database.
+2026-09-13 09:48:08,501 - INFO - Inserted 0 out of 0,delta is 0
+2026-09-13 09:48:08,502 - INFO - No new rows inserted into the database.
+2026-09-13 09:48:45,925 - WARNING - Skipping the job record None as no link exists
+2026-09-13 09:48:45,925 - WARNING - Skipping the job record None as no link exists
+2026-09-13 09:48:45,938 - INFO - Inserted 6 out of 176,delta is 170
+2026-09-13 09:48:46,706 - INFO - Inserted 1 out of 99,delta is 98
+2026-09-13 09:49:21,887 - WARNING - Skipping the job record None as no link exists
+2026-09-13 09:49:21,888 - WARNING - Skipping the job record None as no link exists
+2026-09-13 09:49:21,896 - INFO - Inserted 0 out of 176,delta is 176
+2026-09-13 09:49:21,896 - INFO - No new rows inserted into the database.
+2026-09-13 09:49:23,703 - INFO - Inserted 0 out of 99,delta is 99
+2026-09-13 09:49:23,703 - INFO - No new rows inserted into the database.
+2026-09-13 09:51:12,035 - WARNING - Error Occurred: HTTPSConnectionPool(host='weworkremotely.invalid', port=443): Max retries exceeded with url: / (Caused by NameResolutionError("HTTPSConnection(host='weworkremotely.invalid', port=443): Failed to resolve 'weworkremotely.invalid' ([Errno -2] Name or service not known)")) for the website whose url is: https://weworkremotely.invalid
+2026-09-13 09:51:19,523 - WARNING - Error Occurred: HTTPSConnectionPool(host='remoteok.invalid', port=443): Max retries exceeded with url: / (Caused by NameResolutionError("HTTPSConnection(host='remoteok.invalid', port=443): Failed to resolve 'remoteok.invalid' ([Errno -2] Name or service not known)")) for the website whose url is: https://remoteok.invalid
+2026-09-13 09:52:20,004 - WARNING - Skipping the job record None as no link exists
+2026-09-13 09:52:20,004 - WARNING - Skipping the job record None as no link exists
+2026-09-13 09:52:20,012 - INFO - Inserted 0 out of 176,delta is 176
+2026-09-13 09:52:20,012 - INFO - No new rows inserted into the database.
+2026-09-13 09:52:21,489 - INFO - Inserted 0 out of 99,delta is 99
+2026-09-13 09:52:21,489 - INFO - No new rows inserted into the database.
+2026-09-13 09:52:31,219 - WARNING - Error Occurred: HTTPSConnectionPool(host='weworkremotely.invalid', port=443): Max retries exceeded with url: / (Caused by NameResolutionError("HTTPSConnection(host='weworkremotely.invalid', port=443): Failed to resolve 'weworkremotely.invalid' ([Errno -2] Name or service not known)")) for the website whose url is: https://weworkremotely.invalid
+2026-09-13 09:52:44,638 - WARNING - Error Occurred: HTTPSConnectionPool(host='remoteok.invalid', port=443): Max retries exceeded with url: / (Caused by NameResolutionError("HTTPSConnection(host='remoteok.invalid', port=443): Failed to resolve 'remoteok.invalid' ([Errno -2] Name or service not known)")) for the website whose url is: https://remoteok.invalid
+2026-09-13 10:04:45,770 - INFO - Inserted 0 out of 0,delta is 0
+2026-09-13 10:04:45,771 - INFO - No new rows inserted into the database.
+2026-09-13 10:05:15,804 - WARNING - Skipping the job record None as no link exists
+2026-09-13 10:05:15,805 - WARNING - Skipping the job record None as no link exists
+2026-09-13 10:05:15,825 - INFO - Inserted 176 out of 176,delta is 0
+2026-09-13 10:05:17,667 - INFO - Inserted 99 out of 99,delta is 0
+2026-09-13 10:29:23,488 - WARNING - Error Occurred: HTTPSConnectionPool(host='weworkremotely.invalid', port=443): Max retries exceeded with url: / (Caused by NameResolutionError("HTTPSConnection(host='weworkremotely.invalid', port=443): Failed to resolve 'weworkremotely.invalid' ([Errno -2] Name or service not known)")) for the website whose url is: https://weworkremotely.invalid
+2026-09-13 10:29:23,489 - WARNING - No response.
+2026-09-13 10:29:23,499 - WARNING - Error Occurred: HTTPSConnectionPool(host='remoteok', port=443): Max retries exceeded with url: /api (Caused by NameResolutionError("HTTPSConnection(host='remoteok', port=443): Failed to resolve 'remoteok' ([Errno -2] Name or service not known)")) for the website whose url is: https://remoteok/api
+2026-09-13 10:29:23,499 - WARNING - No response.
+2026-09-13 10:30:51,171 - INFO - weworkremotely-
+2026-09-13 10:30:51,183 - WARNING - Error Occurred: HTTPSConnectionPool(host='weworkremotely.invalid', port=443): Max retries exceeded with url: / (Caused by NameResolutionError("HTTPSConnection(host='weworkremotely.invalid', port=443): Failed to resolve 'weworkremotely.invalid' ([Errno -2] Name or service not known)")) for the website whose url is: https://weworkremotely.invalid
+2026-09-13 10:30:51,183 - WARNING - No response.
+2026-09-13 10:30:51,183 - INFO - remoteok-
+2026-09-13 10:30:51,194 - WARNING - Error Occurred: HTTPSConnectionPool(host='remoteok', port=443): Max retries exceeded with url: /api (Caused by NameResolutionError("HTTPSConnection(host='remoteok', port=443): Failed to resolve 'remoteok' ([Errno -2] Name or service not known)")) for the website whose url is: https://remoteok/api
+2026-09-13 10:30:51,194 - WARNING - No response.
+2026-09-13 10:31:20,285 - INFO - weworkremotely-
+2026-09-13 10:31:20,296 - WARNING - Error Occurred: HTTPSConnectionPool(host='weworkremotely.invalid', port=443): Max retries exceeded with url: / (Caused by NameResolutionError("HTTPSConnection(host='weworkremotely.invalid', port=443): Failed to resolve 'weworkremotely.invalid' ([Errno -2] Name or service not known)")) for the website whose url is: https://weworkremotely.invalid
+2026-09-13 10:31:20,296 - WARNING - No response.
+2026-09-13 10:31:20,296 - INFO - remoteok-
+2026-09-13 10:31:22,687 - INFO - Inserted 0 out of 99,delta is 99
+2026-09-13 10:31:22,687 - INFO - No new rows inserted into the database.
+2026-09-13 10:31:39,633 - INFO - weworkremotely-
+2026-09-13 10:31:39,647 - WARNING - Error Occurred: HTTPSConnectionPool(host='weworkremotely.invalid', port=443): Max retries exceeded with url: / (Caused by NameResolutionError("HTTPSConnection(host='weworkremotely.invalid', port=443): Failed to resolve 'weworkremotely.invalid' ([Errno -2] Name or service not known)")) for the website whose url is: https://weworkremotely.invalid
+2026-09-13 10:31:39,647 - WARNING - No response.
+2026-09-13 10:31:39,647 - INFO - remoteok-
+2026-09-13 10:31:41,632 - INFO - Inserted 99 out of 99,delta is 0

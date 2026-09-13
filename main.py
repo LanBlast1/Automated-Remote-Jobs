@@ -46,7 +46,7 @@ def parse_html(content):
         job_post["location"] = location.get_text(strip=True) if location else None
         link = container.find("a", class_="listing-link--unlocked")
         if link is None or link.get("href") is None:
-            logging.warning("Skipping the record as no link exists")
+            logging.warning("Skipping the job record %s as no link exists",title)
             continue
         job_post["link"] = "https://weworkremotely.com" + link.get("href").strip()
         job_post["source"] = "weworkremotely"
@@ -73,7 +73,7 @@ def parse_json(content):
 
         link = job.get("url", None) if job.get("url", None) != "" else None
         if link is None:
-            logging.warning("Skipping the record as no link exists")
+            logging.warning("Skipping the job record %s as no link exists",title)
             continue
         job_post["link"] = link.lower() if link else None
 
@@ -112,31 +112,23 @@ def load(listings):
         logging.info("No new rows inserted into the database.")
 
 
-def main():
-    url1 = "https://weworkremotely.com/remote-jobs"
-    content_wwr = fetch(url1)
-    url2 = "https://remoteok.com/api"
-    content_ro = fetch(url2)
-
-    if content_wwr is None and content_ro is None:
-        sys.exit(1)
-
-    # We Work Remotely
-    if content_wwr is None:
+def main(source,url,parser):
+    logging.info(source+"-")
+    content=fetch(url)
+    if content is None:
         logging.warning("No response.")
-    job_listings_wwr = parse_html(content_wwr)
-    if not job_listings_wwr:
-        logging.warning("Nothing was scraped.")
-    load(job_listings_wwr)
-
-    # Remoteok
-    if content_ro is None:
-        logging.warning("No response.")
-    job_listings_ro = parse_json(content_ro)
-    if not job_listings_ro:
-        logging.warning("Nothing was scraped.")
-    load(job_listings_ro)
+        return None
+    else:
+        job_listings=parser(content)
+        if not job_listings:
+            logging.warning("Nothing was scraped")
+            return None
+        load(job_listings)
 
 
 if __name__ == "__main__":
-    main()
+    url1="https://weworkremotely.invalid"
+    url2="https://remoteok.com/api"    
+    sources=[("weworkremotely",url1,parse_html),("remoteok",url2,parse_json)]
+    for i in sources:
+        main(i[0],i[1],i[2])
