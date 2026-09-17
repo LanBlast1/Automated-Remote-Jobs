@@ -13,4 +13,4 @@ wheels/
 *.log
 *.db
 
-/main.ipynb
+main.ipynb

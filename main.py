@@ -5,6 +5,7 @@ from bs4 import BeautifulSoup
 from datetime import datetime as dt
 from contextlib import closing
 import json
+from urllib.parse import urlsplit, urlunsplit
 import sys
 
 logging.basicConfig(
@@ -29,7 +30,7 @@ def fetch(url):
 
 
 def parse_html(content):
-    if content == None:
+    if content is None:
         return None
     soup = BeautifulSoup(content, "html.parser")
     containers = soup.find_all("li", class_="new-listing-container")
@@ -46,7 +47,12 @@ def parse_html(content):
         job_post["location"] = location.get_text(strip=True) if location else None
         link = container.find("a", class_="listing-link--unlocked")
         if link is None or link.get("href") is None:
-            logging.warning("Skipping the job record %s as no link exists",title)
+            logging.warning(
+                "Skipping %s record as no link exists",
+                (title.get_text(strip=True) if title else None)
+                or (company_name.get_text(strip=True) if company_name else None)
+                or "Unknown",
+            )
             continue
         job_post["link"] = "https://weworkremotely.com" + link.get("href").strip()
         job_post["source"] = "weworkremotely"
@@ -56,7 +62,7 @@ def parse_html(content):
 
 
 def parse_json(content):
-    if content == None:
+    if content is None:
         return None
     json_data = json.loads(content)
     job_listings = []
@@ -73,10 +79,15 @@ def parse_json(content):
 
         link = job.get("url", None) if job.get("url", None) != "" else None
         if link is None:
-            logging.warning("Skipping the job record %s as no link exists",title)
+            logging.warning(
+                "Skipping %s record as no link exists",
+                title or company_name or "unknown record",
+            )
             continue
-        job_post["link"] = link.lower() if link else None
-
+        result = urlsplit(link)
+        link_modify = result._replace(netloc=result.netloc.lower())
+        new_link = urlunsplit(link_modify)
+        job_post["link"] = new_link
         source = "remoteok"
         job_post["source"] = source
 
@@ -110,25 +121,38 @@ def load(listings):
         con.commit()
     if rowcount == 0:
         logging.info("No new rows inserted into the database.")
+    return None
 
 
-def main(source,url,parser):
-    logging.info(source+"-")
-    content=fetch(url)
+def process_source(name, url, parser):
+    logging.info("Processing source: %s", name)
+    content = fetch(url)
     if content is None:
         logging.warning("No response.")
-        return None
-    else:
-        job_listings=parser(content)
-        if not job_listings:
-            logging.warning("Nothing was scraped")
-            return None
-        load(job_listings)
+        return False
+    job_listings = parser(content)
+    if not job_listings:
+        logging.warning("Nothing was scraped")
+        return False
+    load(job_listings)
+    return True
+
+
+def main():
+    url1 = "https://weworkremotely.com/remote-jobs"
+    url2 = "https://remoteok.com/api"
+    sources = [
+        ("weworkremotely", url1, parse_html),
+        ("remoteok", url2, parse_json),
+    ]
+    count = 0
+    for name, url, parser in sources:
+        succeeded = process_source(name, url, parser)
+        if succeeded:
+            count += 1
+    if count == 0:
+        sys.exit(1)
 
 
 if __name__ == "__main__":
-    url1="https://weworkremotely.invalid"
-    url2="https://remoteok.com/api"    
-    sources=[("weworkremotely",url1,parse_html),("remoteok",url2,parse_json)]
-    for i in sources:
-        main(i[0],i[1],i[2])
+    main()

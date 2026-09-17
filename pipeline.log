@@ -120,3 +120,43 @@
 2026-09-13 10:31:39,647 - WARNING - No response.
 2026-09-13 10:31:39,647 - INFO - remoteok-
 2026-09-13 10:31:41,632 - INFO - Inserted 99 out of 99,delta is 0
+2026-09-13 15:44:12,360 - INFO - weworkremotely-
+2026-09-13 15:44:12,545 - WARNING - Error Occurred: HTTPSConnectionPool(host='weworkremotely.invalid', port=443): Max retries exceeded with url: / (Caused by NameResolutionError("HTTPSConnection(host='weworkremotely.invalid', port=443): Failed to resolve 'weworkremotely.invalid' ([Errno -2] Name or service not known)")) for the website whose url is: https://weworkremotely.invalid
+2026-09-13 15:44:12,545 - WARNING - No response.
+2026-09-13 15:44:12,545 - INFO - remoteok-
+2026-09-13 15:44:14,304 - INFO - Inserted 1 out of 99,delta is 98
+2026-09-13 15:44:59,802 - INFO - weworkremotely-
+2026-09-13 15:44:59,812 - WARNING - Error Occurred: HTTPSConnectionPool(host='weworkremotely.invalid', port=443): Max retries exceeded with url: / (Caused by NameResolutionError("HTTPSConnection(host='weworkremotely.invalid', port=443): Failed to resolve 'weworkremotely.invalid' ([Errno -2] Name or service not known)")) for the website whose url is: https://weworkremotely.invalid
+2026-09-13 15:44:59,812 - WARNING - No response.
+2026-09-13 15:44:59,812 - INFO - remoteok-
+2026-09-13 15:45:01,838 - INFO - Inserted 99 out of 99,delta is 0
+2026-09-13 15:49:28,460 - INFO - weworkremotely-
+2026-09-13 15:49:29,429 - WARNING - Skipping the job record None as no link exists
+2026-09-13 15:49:29,429 - WARNING - Skipping the job record None as no link exists
+2026-09-13 15:49:29,456 - INFO - Inserted 174 out of 174,delta is 0
+2026-09-13 15:49:29,464 - INFO - remoteok-
+2026-09-13 15:49:30,245 - INFO - Inserted 99 out of 99,delta is 0
+2026-09-13 15:50:34,292 - INFO - weworkremotely-
+2026-09-13 15:50:35,052 - WARNING - Skipping the job record None as no link exists
+2026-09-13 15:50:35,052 - WARNING - Skipping the job record None as no link exists
+2026-09-13 15:50:35,070 - INFO - Inserted 174 out of 174,delta is 0
+2026-09-13 15:50:35,079 - INFO - remoteok-
+2026-09-13 15:50:36,887 - INFO - Inserted 99 out of 99,delta is 0
+2026-09-16 17:27:53,714 - INFO - weworkremotely
+2026-09-16 17:27:55,201 - WARNING - Skipping <p class="new-listing__company-name"> Remote Talent Cloud <img alt="Star Icon" class="new-listing__company-name__icon" height="16" src="https://weworkremotely.com/assets/company-name-new-listing-icon-1535d75c2a56fe22cf7821636a862de6f5dcb83b1395dc2c164b77476b274c99.svg" width="16"/></p> record as no link exists
+2026-09-16 17:27:55,202 - WARNING - Skipping <p class="new-listing__company-name"> Metana.io <img alt="Star Icon" class="new-listing__company-name__icon" height="16" src="https://weworkremotely.com/assets/company-name-new-listing-icon-1535d75c2a56fe22cf7821636a862de6f5dcb83b1395dc2c164b77476b274c99.svg" width="16"/></p> record as no link exists
+2026-09-16 17:27:55,238 - INFO - Inserted 174 out of 174,delta is 0
+2026-09-16 17:27:55,248 - INFO - remoteok
+2026-09-16 17:27:57,314 - INFO - Inserted 99 out of 99,delta is 0
+2026-09-16 17:35:01,331 - INFO - weworkremotely
+2026-09-16 17:35:02,480 - WARNING - Skipping Remote Talent Cloud record as no link exists
+2026-09-16 17:35:02,481 - WARNING - Skipping Metana.io record as no link exists
+2026-09-16 17:35:02,516 - INFO - Inserted 174 out of 174,delta is 0
+2026-09-16 17:35:02,526 - INFO - remoteok
+2026-09-16 17:35:03,469 - INFO - Inserted 99 out of 99,delta is 0
+2026-09-17 04:39:38,584 - INFO - weworkremotely
+2026-09-17 04:39:40,389 - WARNING - Skipping Remote Talent Cloud record as no link exists
+2026-09-17 04:39:40,390 - WARNING - Skipping Metana.io record as no link exists
+2026-09-17 04:39:40,436 - INFO - Inserted 174 out of 174,delta is 0
+2026-09-17 04:39:40,448 - INFO - remoteok
+2026-09-17 04:39:41,288 - INFO - Inserted 99 out of 99,delta is 0
