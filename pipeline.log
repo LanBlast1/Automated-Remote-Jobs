@@ -160,3 +160,14 @@
 2026-09-17 04:39:40,436 - INFO - Inserted 174 out of 174,delta is 0
 2026-09-17 04:39:40,448 - INFO - remoteok
 2026-09-17 04:39:41,288 - INFO - Inserted 99 out of 99,delta is 0
+2026-09-22 07:38:50,331 - INFO - Processing source: weworkremotely
+2026-09-22 07:38:51,422 - WARNING - Skipping Remote Talent Cloud record as no link exists
+2026-09-22 07:38:51,463 - INFO - Inserted 161 out of 161,delta is 0
+2026-09-22 07:38:51,478 - INFO - Processing source: remoteok
+2026-09-22 07:38:56,874 - WARNING - Error Occurred: HTTPSConnectionPool(host='remoteok.com', port=443): Read timed out. (read timeout=5) for the website whose url is: https://remoteok.com/api
+2026-09-22 07:38:56,874 - WARNING - No response.
+2026-09-22 09:44:23,184 - INFO - Processing source: weworkremotely
+2026-09-22 09:44:24,157 - WARNING - Skipping Remote Talent Cloud record as no link exists
+2026-09-22 09:44:24,193 - INFO - Inserted 161 out of 161,delta is 0
+2026-09-22 09:44:24,204 - INFO - Processing source: remoteok
+2026-09-22 09:44:28,779 - INFO - Inserted 99 out of 99,delta is 0

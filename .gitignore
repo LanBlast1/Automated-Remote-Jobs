@@ -12,5 +12,5 @@ wheels/
 # Addditional files
 *.log
 *.db
+!jobs.db
 
-main.ipynb
