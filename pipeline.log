@@ -171,3 +171,54 @@
 2026-09-22 09:44:24,193 - INFO - Inserted 161 out of 161,delta is 0
 2026-09-22 09:44:24,204 - INFO - Processing source: remoteok
 2026-09-22 09:44:28,779 - INFO - Inserted 99 out of 99,delta is 0
+2026-10-08 11:19:59,963 - INFO - Processing source: weworkremotely
+2026-10-08 11:20:01,205 - WARNING - Skipping Remote Talent Cloud record as no link exists
+2026-10-08 11:20:01,241 - INFO - Inserted 190 out of 192,delta is 2
+2026-10-08 11:20:01,253 - INFO - Processing source: remoteok
+2026-10-08 11:20:03,080 - INFO - Inserted 99 out of 99,delta is 0
+2026-10-15 13:52:02,160 - INFO - Processing source: weworkremotely
+2026-10-15 13:52:03,529 - WARNING - Skipping Remote Talent Cloud record as no link exists
+2026-10-15 13:52:20,671 - INFO - Processing source: weworkremotely
+2026-10-15 13:52:21,686 - WARNING - Skipping Remote Talent Cloud record as no link exists
+2026-10-15 13:52:21,738 - INFO - Inserted 192 out of 193,delta is 1
+2026-10-15 13:52:21,756 - INFO - Processing source: remoteok
+2026-10-15 13:52:23,710 - INFO - Inserted 99 out of 99,delta is 0
+2026-10-15 13:53:12,549 - INFO - Processing source: weworkremotely
+2026-10-15 13:53:13,553 - WARNING - Skipping Remote Talent Cloud record as no link exists
+2026-10-15 13:53:13,580 - INFO - Inserted 0 out of 193,delta is 193
+2026-10-15 13:53:13,580 - INFO - No new rows inserted into the database.
+2026-10-15 13:53:13,581 - INFO - Processing source: remoteok
+2026-10-15 13:53:15,234 - INFO - Inserted 0 out of 99,delta is 99
+2026-10-15 13:53:15,234 - INFO - No new rows inserted into the database.
+2026-10-23 11:17:20,952 - INFO - Processing source: weworkremotely
+2026-10-23 11:17:22,064 - WARNING - Skipping Remote Talent Cloud record as no link exists
+2026-10-23 11:17:22,101 - INFO - Inserted 211 out of 211,delta is 0
+2026-10-23 11:17:22,113 - INFO - Processing source: remoteok
+2026-10-23 11:17:22,793 - INFO - Inserted 99 out of 99,delta is 0
+2026-10-23 11:20:09,205 - INFO - Processing source: weworkremotely
+2026-10-23 11:20:10,224 - WARNING - Skipping Remote Talent Cloud record as no link exists
+2026-10-23 11:20:10,262 - INFO - Inserted 211 out of 211,delta is 0
+2026-10-23 11:20:10,276 - INFO - Processing source: remoteok
+2026-10-23 11:20:11,088 - INFO - Inserted 99 out of 99,delta is 0
+2026-10-23 11:21:06,461 - INFO - Processing source: weworkremotely
+2026-10-23 11:21:07,670 - WARNING - Skipping Remote Talent Cloud record as no link exists
+2026-10-23 11:21:07,694 - INFO - Inserted 0 out of 211,delta is 211
+2026-10-23 11:21:07,694 - INFO - No new rows inserted into the database.
+2026-10-23 11:21:07,694 - INFO - Processing source: remoteok
+2026-10-23 11:21:09,368 - INFO - Inserted 0 out of 99,delta is 99
+2026-10-23 11:21:09,368 - INFO - No new rows inserted into the database.
+2026-10-23 11:21:26,262 - INFO - Processing source: weworkremotely
+2026-10-23 11:21:27,427 - WARNING - Skipping Remote Talent Cloud record as no link exists
+2026-10-23 11:21:27,477 - INFO - Inserted 211 out of 211,delta is 0
+2026-10-23 11:21:27,492 - INFO - Processing source: remoteok
+2026-10-23 11:21:29,187 - INFO - Inserted 99 out of 99,delta is 0
+2026-10-23 11:22:45,784 - INFO - Processing source: weworkremotely
+2026-10-23 11:22:46,745 - WARNING - Skipping Remote Talent Cloud record as no link exists
+2026-10-23 11:22:46,782 - INFO - Inserted 211 out of 211,delta is 0
+2026-10-23 11:22:46,794 - INFO - Processing source: remoteok
+2026-10-23 11:22:48,460 - INFO - Inserted 99 out of 99,delta is 0
+2026-10-24 08:54:03,856 - INFO - Processing source: weworkremotely
+2026-10-24 08:54:05,636 - WARNING - Skipping Remote Talent Cloud record as no link exists
+2026-10-24 08:54:05,665 - INFO - Inserted 20 out of 212,delta is 192
+2026-10-24 08:54:05,681 - INFO - Processing source: remoteok
+2026-10-24 08:54:07,486 - INFO - Inserted 3 out of 99,delta is 96
