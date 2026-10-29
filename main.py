@@ -68,7 +68,6 @@ def parse_html(content):
 def parse_json(content):
     if content is None:
         return []
-    json_data = json.loads(content)
     try:
         json_data = json.loads(content)
     except json.JSONDecodeError:

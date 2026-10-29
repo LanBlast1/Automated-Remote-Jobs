@@ -30,6 +30,17 @@ Finding remote jobs across multiple boards is repetitive. This project automates
   - exporting a showcase database
 - Streamlit dashboard with simple tag filtering
 
+## Demo Data
+
+This repository includes `showcase.db`, a sanitized snapshot of scraped job listings.
+
+The dashboard uses:
+
+- `jobs.db` locally if it exists
+- `showcase.db` as the public demo database if `jobs.db` is not present
+
+`showcase.db` does not contain the personal `applied_at` column.
+
 ## Tech Stack
 
 - Python
@@ -56,5 +67,19 @@ python main.py
 
 Run the Streamlit dashboard:
 ```bash
-streamlit run streamlit.py
+streamlit run app.py
 ```
+
+## Current Limitations
+- Scraping is run manually
+- Uses SQLite only
+- Tags are stored as comma-separated text
+- Tag filter is approximate substring matching
+- No authentication
+- No scheduled refresh
+
+## Next Steps
+- Improve tag filtering with normalized tags
+- Schedule automatic scraping
+- Add basic tests
+- Move to PostgreSQL if needed
