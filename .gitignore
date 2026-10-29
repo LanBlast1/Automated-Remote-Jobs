@@ -12,5 +12,6 @@ wheels/
 # Addditional files
 *.log
 *.db
-!jobs.db
+!showcase.db
+
 

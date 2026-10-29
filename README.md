@@ -1,20 +1,60 @@
-# Automated Remote Jobs ETL Pipeline
+# Remote Jobs Pipeline
 
-This project extracts job listings from the website https://weworkremotely.com using `requests` and `beautifulsoup4` library in Python. Extracted data has been cleaned and stored in a database using `sqlite3` for easy access and to avoid loss of data.
+## Problem
 
-## Architecture / Pipeline Flow
-- Extract: For data extraction, custom user agent in headers were used to gain access to the website
-- Transform: Data cleaning was done by handling None or missing values by assigning 'Unknown' to the missing feature 
-- Load: For storing, `sqlite3` was used as it provides a sql database which avoids data depuplication
+Finding remote jobs across multiple boards is repetitive. This project automates collecting, storing, and reviewing job listings.
+
+## Sources
+
+- We Work Remotely
+- RemoteOK API
+
+## Pipeline
+
+1. **Extract**: Fetch HTML and JSON data using `requests`.
+2. **Parse**: Parse We Work Remotely HTML with BeautifulSoup and RemoteOK JSON with Python's `json` module.
+3. **Normalize**: Extract title, company name, location, link, source, scraped timestamp, and tags.
+4. **Load**: Store records in SQLite. Duplicate links are ignored using `UNIQUE(link)` and `INSERT OR IGNORE`.
+5. **Serve**: View jobs in a Streamlit dashboard with a simple tag filter.
+
+## Features
+
+- Scrapes jobs from We Work Remotely and RemoteOK
+- Deduplicates jobs by link
+- Stores data in a local SQLite database
+- Logs runs and errors to `pipeline.log`
+- CLI menu for:
+  - viewing newest jobs
+  - marking jobs as applied
+  - searching jobs
+  - exporting a showcase database
+- Streamlit dashboard with simple tag filtering
+
 ## Tech Stack
-- Language: Python
-- Libraries: requests, BeautifulSoup, sqlite3, logging
-- Database: SQLite
-## Key Engineering Features
-- Implemented INSERT or IGNORE INTO so as to avoid any duplicate values being inserted into the database.
-- Used logging to keep track of data collection and any current or future errors. 
+
+- Python
+- requests
+- BeautifulSoup
+- sqlite3
+- pandas
+- Streamlit
+
 ## How to Run
-- Clone the repository
-- Install dependencies: `pip install requests beautifulsoup4`
-- Run the pipeline: python scraper.py
-- View the database: `sqlite3 jobs.db`
+
+Clone the repository.
+
+Install dependencies:
+
+```bash
+pip install requests beautifulsoup4 pandas streamlit
+```
+
+Run the scraper and CLI menu:
+```bash
+python main.py
+```
+
+Run the Streamlit dashboard:
+```bash
+streamlit run streamlit.py
+```

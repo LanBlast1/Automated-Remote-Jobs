@@ -75,7 +75,7 @@ def parse_json(content):
         logging.warning("Response is not valid JSON, returning empty list")
         return []
     if not isinstance(json_data, list):
-        logging.warning("Unexpected JSON shape, returning empty list")  # it IS valid JSON, just not a list
+        logging.warning("Unexpected JSON shape, returning empty list")  
         return []
     job_listings = []
     for job in json_data[1:]:
